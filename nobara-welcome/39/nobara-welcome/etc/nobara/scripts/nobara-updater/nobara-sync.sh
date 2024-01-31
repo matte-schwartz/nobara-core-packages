@@ -396,13 +396,15 @@ fi
 
 # Install some special software for ROG Ally and Lenovo Legion Go special buttons
 if [[ -n $(sudo dmesg | grep 'ROG Ally') ]]; then
-  if [[ -z $(rpm -qa | grep rogue-enemy) ]]; then
+  if [[ -z $(rpm -qa | grep hhd) ]]; then
     echo "#####"
-    echo "ROG Ally detected, installing rogue-enemy for functionality"
+    echo "ROG Ally detected, installing hhd for functionality"
     echo "#####"
     sudo systemctl disable --now handycon &> /dev/null
     sudo dnf remove -y HandyGCCS &> /dev/null
-    sudo dnf install -y rogue-enemy
+    sudo systemctl disable --now rogue-enemy &> /dev/null
+    sudo dnf remove -y rogue-enemy &> /dev/null
+    sudo dnf install -y hhd
   fi
 fi
 
