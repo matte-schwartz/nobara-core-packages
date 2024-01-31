@@ -398,7 +398,7 @@ fi
 if [[ -n $(sudo dmesg | grep 'ROG Ally') ]]; then
   if [[ -z $(rpm -qa | grep hhd) ]]; then
     echo "#####"
-    echo "ROG Ally detected, installing hhd for functionality"
+    echo "ROG Ally detected, installing hhd for built-in controller functionality"
     echo "#####"
     sudo systemctl disable --now handycon &> /dev/null
     sudo dnf remove -y HandyGCCS &> /dev/null
@@ -411,11 +411,13 @@ fi
 if [[ -n $(sudo dmesg | grep 'Legion Go') ]]; then
   if [[ -z $(rpm -qa | grep lgcd) ]]; then
     echo "#####"
-    echo "Lenovo Legion Go detected, installing lgcd for functionality"
+    echo "Lenovo Legion Go detected, installing hhd for built-in controller functionality"
     echo "#####"
     sudo systemctl disable --now handycon &> /dev/null
     sudo dnf remove -y HandyGCCS &> /dev/null
-    sudo dnf install -y lgcd
+    sudo systemctl disable --now rogue-enemy &> /dev/null
+    sudo dnf remove -y rogue-enemy &> /dev/null
+    sudo dnf install -y hhd
   fi
 fi
 
