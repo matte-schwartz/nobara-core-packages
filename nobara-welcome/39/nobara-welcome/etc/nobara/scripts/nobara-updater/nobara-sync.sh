@@ -8,12 +8,12 @@ loglocation="$USERHOME"/.nobara-sync.log
 loglocation_old="$USERHOME"/.nobara-sync.log.old
 
 # Check if the current log file exists before attempting backup
-if [ -f "$loglocation" ]; then
+if [ -f $loglocation ]; then
   # Remove the old backup file if it exists
-  rm -f "$loglocation_old"
+  rm -f $loglocation_old
   
   # Create a backup of the current log file
-  cp -f "$loglocation" "$loglocation_old"
+  cp -f $loglocation $loglocation_old
 fi
 
 # Become root
