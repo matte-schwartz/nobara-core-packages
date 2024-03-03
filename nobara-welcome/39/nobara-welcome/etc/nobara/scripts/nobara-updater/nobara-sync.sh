@@ -5,6 +5,16 @@ script=$(realpath $0)
 displayuser="$2"
 USERHOME=$(echo $(getent passwd "$displayuser" | cut -d: -f6))
 loglocation="$USERHOME"/.nobara-sync.log
+loglocation_old="$USERHOME"/.nobara-sync.log.old
+
+# Check if the current log file exists before attempting backup
+if [ -f "$loglocation" ]; then
+  # Remove the old backup file if it exists
+  rm -f "$loglocation_old"
+  
+  # Create a backup of the current log file
+  cp -f "$loglocation" "$loglocation_old"
+fi
 
 # Become root
 if [[ $EUID != 0 ]]; then
@@ -26,7 +36,13 @@ elif [[ $EUID == 0 ]]; then
 fi
 
 if [[ -n "$2" ]]; then
-	chown $2:$2 $loglocation
+    # Set ownership of the current log file
+    chown $2:$2 $loglocation
+
+    # Check if the backup log file exists and set its ownership
+    if [ -f $loglocation_old ]; then
+        chown $2:$2 $loglocation_old
+    fi
 fi
 
 # The captured log output is unbuffered, so we need to clean it up
